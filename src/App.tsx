@@ -1,11 +1,9 @@
-import './App.css'
+import Screen from "@components/Screen"
 
 function App() {
 
   return (
-    <h1 className="text-3xl font-bold underline">
-    Hello world!
-  </h1>
+    <Screen/>
   )
 }
 
