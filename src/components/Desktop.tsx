@@ -8,7 +8,7 @@ interface DesktopProps {
 export default function Desktop({ Icons }: DesktopProps) {
 
   return (
-    <div className="flex-grow grid-flow-col grid grid-cols-12 grid-rows-10 p-4 gap-1">
+    <div className="flex-grow grid-flow-col grid grid-cols-12 grid-rows-10 p-4 gap-1 ">
       {Icons.length > 0 &&
         Icons.map((icon, index) => {
           const gridSizeClass = {

@@ -43,7 +43,7 @@ export default function Screen() {
   ];
 
   return (
-    <div className='flex flex-col min-h-screen overflow-hidden' style={{backgroundImage: `url(${Background})`, backgroundSize: "cover", backgroundRepeat: "no-repeat" }}>
+    <div className='flex flex-col min-h-screen overflow-hidden -z-20' style={{backgroundImage: `url(${Background})`, backgroundSize: "cover", backgroundRepeat: "no-repeat" }}>
         <Desktop Icons={DesktopIcons}  />
       <Taskbar Icons={TaskbarIcons} />
     </div>
