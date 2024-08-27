@@ -4,8 +4,7 @@ import { IIcon } from "@utils/interfaces";
 import Background from "@assets/Backgrounds/Background1.svg";
 
 export default function Screen() {
-
-//For now, ill only use small icons
+  // For now, I'll only use small icons
   const DesktopIcons: IIcon[] = [
     {
       id: 1,
@@ -31,6 +30,7 @@ export default function Screen() {
       type: 'dt'
     }
   ];
+  
   const TaskbarIcons: IIcon[] = [
     {
       id: 1,
@@ -43,9 +43,13 @@ export default function Screen() {
   ];
 
   return (
-    <div className='flex flex-col min-h-screen overflow-hidden -z-20' style={{backgroundImage: `url(${Background})`, backgroundSize: "cover", backgroundRepeat: "no-repeat" }}>
-        <Desktop Icons={DesktopIcons}  />
-      <Taskbar Icons={TaskbarIcons} />
+    <div className="flex flex-col h-screen overflow-hidden bg-cover bg-no-repeat -z-20" style={{ backgroundImage: `url(${Background})` }}>
+      <div className="flex-grow overflow-auto p-2">
+        <Desktop Icons={DesktopIcons} />
+      </div>
+      <div className="w-full">
+        <Taskbar Icons={TaskbarIcons} />
+      </div>
     </div>
   );
 }
