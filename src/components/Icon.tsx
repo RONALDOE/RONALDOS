@@ -6,6 +6,8 @@ interface IconProps {
 }
 
 export default function Icon({ content }: IconProps) {
+
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [menuPosition, setMenuPosition] = useState({ x: 0, y: 0 });
 
   const handleContextMenu = (event: React.MouseEvent<HTMLElement>) => {

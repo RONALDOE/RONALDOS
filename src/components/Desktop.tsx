@@ -1,32 +1,48 @@
-import { IIcon } from "@utils/interfaces.ts";
-import Icon from "./Icon";
+ 
+
+
+import React, { Component } from 'react';
+import { IIcon } from '@utils/interfaces.ts';
+import SortableItem from './SortableItem';
+import SortableList from './SortableList';
+import { arrayMoveImmutable } from 'array-move';
 
 interface DesktopProps {
   Icons: IIcon[];
 }
 
-export default function Desktop({ Icons }: DesktopProps) {
-
-  return (
-    <div className="grid-flow-col grid grid-cols-12 grid-rows-10 p-4 gap-2 max-h-full ">
-      {Icons.length > 0 &&
-        Icons.map((icon, index) => {
-          const gridSizeClass = {
-            small: "col-span-1 row-span-1",
-            medium: "col-span-1 row-span-2",
-            large: "col-span-1 row-span-3",
-          }[icon.size || "small"]; 
-
-          return(
-            <div
-              key={index}
-              className={`${gridSizeClass} flex items-center justify-center`}
-              style={{ margin: 'auto' }} // Añade un margin auto para centrar
-            >
-              <Icon content={icon} />
-            </div>
-          );
-        })}
-    </div>
-  );
+interface DesktopState {
+  items: string[];
 }
+
+class Desktop extends Component<DesktopProps, DesktopState> {
+  constructor(props: DesktopProps) {
+    super(props);
+    this.state = { items: ['item 1', 'item 2', 'item 3', 'item 4', 'item 5', 'item 6'] };
+    this.onSortEnd = this.onSortEnd.bind(this);
+  }
+
+  onSortEnd({ oldIndex, newIndex }: { oldIndex: number, newIndex: number }) {
+    this.setState(({ items }) => ({
+      items: arrayMoveImmutable(items, oldIndex, newIndex),
+    }));
+  }
+
+  render() {
+    const { items } = this.state;
+
+    return (
+      <div className="container">
+
+        <SortableList onSortEnd={this.onSortEnd} axis="xy">
+          {items.map((value, index) => (
+            <SortableItem key={`item-${index}`} index={index} value={value} />
+          ))}
+        </SortableList>
+       
+      </div>
+    );
+  }
+}
+
+export default Desktop;
