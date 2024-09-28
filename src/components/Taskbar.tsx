@@ -20,6 +20,7 @@ export default function Taskbar({ Icons }: TaskbarProps) {
   const infoButtonRef = useRef<HTMLButtonElement>(null);
   const soundButtonRef = useRef<HTMLButtonElement>(null);
   const { volume } = useContext(GlobalValuesContext);
+
   console.log(volume)
 
   useEffect(() => {
@@ -31,20 +32,24 @@ export default function Taskbar({ Icons }: TaskbarProps) {
     return () => clearInterval(intervalId);
   }, []);
 
-  useEffect(() => {
-    if (infoMenu && infoButtonRef.current) {
-      const rect = infoButtonRef.current.getBoundingClientRect();
-      setInfoPosition({ top: rect.top - 520, left: rect.left });
-      return () => {};
-    }
-  }, [infoMenu]);
+  
 
   useEffect(() => {
+    // Posicionamiento dinámico del SoundSlider
     if (soundSlider && soundButtonRef.current) {
       const rect = soundButtonRef.current.getBoundingClientRect();
       setSoundPosition({ top: rect.top - 92, left: rect.left });
     }
   }, [soundSlider]);
+  
+  useEffect(() => {
+    // Posicionamiento dinámico del InfoMenu
+    if (infoMenu && infoButtonRef.current) {
+      const rect = infoButtonRef.current.getBoundingClientRect();
+      setInfoPosition({ top: rect.top - 520, left: rect.left });
+    }
+  }, [infoMenu]);
+  
 
   return (
     <div className='relative '>
@@ -94,6 +99,8 @@ export default function Taskbar({ Icons }: TaskbarProps) {
             }`}
             onClick={() => {
               setInfoMenu(!infoMenu);
+        if (!infoMenu) setSoundSlider(false); // Si soundSlider se abre, cierra infoMenu
+
               console.log(infoMenu);
             }}
           >
@@ -110,27 +117,19 @@ export default function Taskbar({ Icons }: TaskbarProps) {
             />
           </button>
           <button
-            className=' w-8 h-8 p-1 hover:bg-white/5 rounded-md '
-            onClick={() => {
-              setSoundSlider(!soundSlider);
-              console.log(soundSlider);
-            }}
-            ref={soundButtonRef}
-          >
-            {volume > 0 ? (
-              <img
-                src='https://img.icons8.com/fluency/256/speaker.png'
-                id='sound'
-                className='size-full '
-              />
-            ) : (
-              <img
-                src='https://img.icons8.com/fluency/256/mute.png'
-                id='sound'
-                className='size-full '
-              />
-            )}
-          </button>
+      ref={soundButtonRef}
+      className="w-8 h-8 p-1 hover:bg-white/5 rounded-md"
+      onClick={() => {
+        setSoundSlider(!soundSlider); // Abre/cierra el soundSlider
+        if (!soundSlider) setInfoMenu(false); // Si soundSlider se abre, cierra infoMenu
+      }}
+    >
+      {volume > 0 ? (
+        <img src="https://img.icons8.com/fluency/256/speaker.png" className="size-full" />
+      ) : (
+        <img src="https://img.icons8.com/fluency/256/mute.png" className="size-full" />
+      )}
+    </button>
 
           <div className='flex flex-col gap-0 text-sm text-right '>
             <p>{ctime}</p>
