@@ -1,48 +1,26 @@
- 
-
-
-import React, { Component } from 'react';
-import { IIcon } from '@utils/interfaces.ts';
-import SortableItem from './SortableItem';
-import SortableList from './SortableList';
-import { arrayMoveImmutable } from 'array-move';
+import React from 'react'
+import Icon from './Icon'
+import { IIcon } from '@utils/interfaces'
 
 interface DesktopProps {
-  Icons: IIcon[];
+Icons:IIcon[]
+
 }
 
-interface DesktopState {
-  items: string[];
+
+export default function Desktop( {Icons}: DesktopProps) {
+  return (
+    <div className='container flex flex-col gap-4 m-4 '>
+      {Icons.length > 0 &&
+            Icons.map((icon, index) => {
+              return (
+                <div key={index}>
+                  <Icon content={icon} />
+                </div>
+              );
+            })}
+      
+      
+    </div>
+  )
 }
-
-class Desktop extends Component<DesktopProps, DesktopState> {
-  constructor(props: DesktopProps) {
-    super(props);
-    this.state = { items: ['item 1', 'item 2', 'item 3', 'item 4', 'item 5', 'item 6'] };
-    this.onSortEnd = this.onSortEnd.bind(this);
-  }
-
-  onSortEnd({ oldIndex, newIndex }: { oldIndex: number, newIndex: number }) {
-    this.setState(({ items }) => ({
-      items: arrayMoveImmutable(items, oldIndex, newIndex),
-    }));
-  }
-
-  render() {
-    const { items } = this.state;
-
-    return (
-      <div className="container">
-
-        <SortableList onSortEnd={this.onSortEnd} axis="xy">
-          {items.map((value, index) => (
-            <SortableItem key={`item-${index}`} index={index} value={value} />
-          ))}
-        </SortableList>
-       
-      </div>
-    );
-  }
-}
-
-export default Desktop;

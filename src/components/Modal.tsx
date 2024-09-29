@@ -1,11 +1,13 @@
 import React, { useEffect, useState, useRef } from "react";
-interface Modal {
+
+interface ModalProps {
   isVisible: boolean;
   position: { top: number; left: number };
   element: JSX.Element;
+  style: React.CSSProperties; // Define type for style
 }
 
-export default function MyInfo({ isVisible, position, element }: Modal) {
+export default function Modal({ isVisible, position, element, style }: ModalProps) {
   const [visible, setVisible] = useState(isVisible);
   const ref = useRef<HTMLDivElement>(null);
 
@@ -36,6 +38,7 @@ export default function MyInfo({ isVisible, position, element }: Modal) {
       style={{
         top: position.top,
         left: position.left,
+        ...style, // Apply the additional styles
       }}
     >
       {element}

@@ -27,7 +27,7 @@ export default function Icon({ content }: IconProps) {
           : content.size === "large"
           ? "w-40 h-40"
           : "w-14 h-14") + 
-        " p-1 rounded-sm transition-all flex flex-col hover:bg-white/5 items-center justify-center text-white font-semibold select-none"
+        " p-1 rounded-sm transition-all flex flex-col hover:bg-white/10 items-center justify-center text-white text-lg font-semibold select-none"
       }
       onContextMenu={handleContextMenu}
     >
@@ -38,7 +38,7 @@ export default function Icon({ content }: IconProps) {
           className="object-contain max-w-full max-h-full"
         />
       </div>
-      <p>{content.type === 'dt' ? content?.name : ""}</p>
+      <p>{content.type === 'dt' ? content.name : ""}</p>
     </button>
   );
 }

@@ -5,6 +5,18 @@ import MyPhoto from "@assets/My Photo.jpg";
 
 export default function MyInfo() {
 
+const habilites = [{ src: "https://img.icons8.com/fluency/256/javascript.png", alt: "JavaScript" },
+  { src: "https://img.icons8.com/fluency/256/mysql-logo.png", alt: "MySQL" },
+  { src: "https://img.icons8.com/office/266/react.png", alt: "ReactJS" },
+  { src: "https://img.icons8.com/fluency/256/node-js.png", alt: "NodeJS" },
+  { src: "https://img.icons8.com/color/256/typescript.png", alt: "TypeScript" },
+  { src: "https://img.icons8.com/color/256/mongodb.png", alt: "MongoDB" },
+  { src: "https://img.icons8.com/color/256/vue-js.png", alt: "VueJS" },
+  { src: "https://img.icons8.com/color/256/amazon-web-services.png", alt: "AWS" },
+  { src: "https://img.icons8.com/color/256/figma--v1.png", alt: "Figma" },
+  { src: "https://img.icons8.com/external-those-icons-lineal-color-those-icons/256/external-SQL-development-files-those-icons-lineal-color-those-icons.png", alt: "MSSQL" },
+  { src: "https://img.icons8.com/color/256/nextjs.png", alt: "NextJS", additionalClass: "invert" },
+  { src: "https://img.icons8.com/external-those-icons-flat-those-icons/256/external-Linux-logos-and-brands-those-icons-flat-those-icons.png", alt: "Linux" },]
 
   return (
  
@@ -17,20 +29,7 @@ export default function MyInfo() {
           alt="Profile"
         />
         <div className="grid grid-cols-3 grid-rows-4 gap-4">
-          {[
-            { src: "https://img.icons8.com/fluency/256/javascript.png", alt: "JavaScript" },
-            { src: "https://img.icons8.com/fluency/256/mysql-logo.png", alt: "MySQL" },
-            { src: "https://img.icons8.com/office/266/react.png", alt: "ReactJS" },
-            { src: "https://img.icons8.com/fluency/256/node-js.png", alt: "NodeJS" },
-            { src: "https://img.icons8.com/color/256/typescript.png", alt: "TypeScript" },
-            { src: "https://img.icons8.com/color/256/mongodb.png", alt: "MongoDB" },
-            { src: "https://img.icons8.com/color/256/vue-js.png", alt: "VueJS" },
-            { src: "https://img.icons8.com/color/256/amazon-web-services.png", alt: "AWS" },
-            { src: "https://img.icons8.com/color/256/figma--v1.png", alt: "Figma" },
-            { src: "https://img.icons8.com/external-those-icons-lineal-color-those-icons/256/external-SQL-development-files-those-icons-lineal-color-those-icons.png", alt: "MSSQL" },
-            { src: "https://img.icons8.com/color/256/nextjs.png", alt: "NextJS", additionalClass: "invert" },
-            { src: "https://img.icons8.com/external-those-icons-flat-those-icons/256/external-Linux-logos-and-brands-those-icons-flat-those-icons.png", alt: "Linux" },
-          ].map((tech, index) => (
+          {habilites.map((tech, index) => (
             <div key={index} className="relative group flex justify-center items-center">
               <img
                 src={tech.src}
