@@ -1,5 +1,6 @@
 import React from 'react'
 import Icon from './Icon'
+import Window from './Window'
 import { IIcon } from '@utils/interfaces'
 
 interface DesktopProps {
@@ -19,7 +20,6 @@ export default function Desktop( {Icons}: DesktopProps) {
                 </div>
               );
             })}
-      
       
     </div>
   )
