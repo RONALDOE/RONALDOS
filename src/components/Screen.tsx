@@ -67,7 +67,7 @@ export default function Screen() {
       {/* Pantalla de carga */}
       <div className={`bg-black w-full h-full flex flex-col items-center justify-center absolute z-20 ${loading ? '' : 'hidden'}`}>
         <Loading />
-        <div className="w-1/6 h-4 bg-gray-200 rounded-lg overflow-hidden mt-4">
+        <div className="w-1/6 h-4 bg-gray-200 rounded-sm overflow-hidden mt-4">
           {/* Progreso */}
           <div
             className="h-full bg-gray-500"

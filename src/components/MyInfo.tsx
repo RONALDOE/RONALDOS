@@ -42,7 +42,7 @@ const habilites = [{ src: "https://img.icons8.com/fluency/256/javascript.png", a
             </div>
           ))}
         </div>
-      </div>
+      </div>  
 
   );
 }

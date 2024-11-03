@@ -20,7 +20,7 @@ export default function Desktop( {Icons}: DesktopProps) {
                 </div>
               );
             })}
-      
+            <Window icon={Icons[0]} id={1} />
     </div>
   )
 }
