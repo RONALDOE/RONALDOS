@@ -2,13 +2,14 @@ import Desktop from "@components/Desktop";
 import Taskbar from "@components/Taskbar";
 import { IIcon } from "@utils/interfaces";
 import Background from "@assets/Backgrounds/Background1.svg";
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import Loading from "./Loading";
-
+import { GlobalValuesContext } from "@utils/GlobalValuesContext";
 export default function Screen() {
 
   const [loading, setLoading] = useState(true);
   const [loadingCount, setLoadingCount] = useState(0);
+
 
   // Cuando el valor de loadingCount alcance 100, desactiva la pantalla de carga
   useEffect(() => {

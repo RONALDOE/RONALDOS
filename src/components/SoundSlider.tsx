@@ -3,36 +3,35 @@ import { GlobalValuesContext } from '@utils/GlobalValuesContext';
 
 export default function SoundSlider() {
   const { volume: globalVolume, setVolume: setGlobalVolume } = useContext(GlobalValuesContext);
-  const [volume, setVolume] = useState(globalVolume || 50);
+  const [volume, setVolume] = useState(globalVolume || 100);
   const [mute, setMute] = useState(false);
   const [lastVolume, setLastVolume] = useState(volume);
 
   useEffect(() => {
-    if (mute ) {
-      setLastVolume(volume); // Save the last volume before muting
-      setVolume(0); // Mute the volume
-      setGlobalVolume(0); // Update the global volume to 0
-    } else {
-      setVolume(lastVolume); // Restore the last saved volume
-      setGlobalVolume(lastVolume); // Update the global volume to the last saved volume
+    if (mute) {
+      setLastVolume(volume); // Guarda el último volumen antes de silenciar
+      setVolume(0); // Cambia el volumen local a 0
+      setGlobalVolume(0); // Cambia el volumen global a 0
+    } else if (volume === 0) { 
+      // Restablece solo si el volumen está en 0 cuando se desactiva el mute
+      setVolume(lastVolume);
+      setGlobalVolume(lastVolume);
     }
-  }, [mute]);
-
-
-
+  }, [mute]); // Mantiene las dependencias mínimas
+  
 
   const handleVolumeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const newVolume = Number(e.target.value);
     setVolume(newVolume);
-    setGlobalVolume(newVolume); // Update the global volume as well
+    setGlobalVolume(newVolume);
 
     if (newVolume > 0 && mute) {
-      setMute(false); // Deactivate mute if the user adjusts the volume while it's muted
+      setMute(false);
     }
   };
 
   return (
-    <div className=' flex flex-row gap-2'>
+    <div className='flex flex-row gap-2'>
       <button onClick={() => setMute(!mute)}>
         {volume === 0 ? (
           <img src="https://img.icons8.com/fluency/256/mute.png" className='w-8 h-8' alt="Mute" />

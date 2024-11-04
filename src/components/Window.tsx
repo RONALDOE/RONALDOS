@@ -1,6 +1,7 @@
+import React, { useContext } from 'react';
 import { Rnd } from "react-rnd";
 import { IIcon } from '@utils/interfaces';
-import React from 'react';
+import { GlobalValuesContext } from "@utils/GlobalValuesContext";
 
 interface WindowProps {
   icon: IIcon;
@@ -9,27 +10,27 @@ interface WindowProps {
 }
 
 interface WindowState {
-  windowSizeDefault: { width: number, height: number };  // Dimensiones por defecto
-  windowSize: { width: number, height: number };  // Dimensiones actuales de la ventana
-  isVisible: boolean;  // Visibilidad de la ventana
-  isMaximized: boolean;  // Estado maximizado/restaurado
-  exists: boolean
+  windowSizeDefault: { width: number, height: number };
+  windowSize: { width: number, height: number };
+  isVisible: boolean;
+  isMaximized: boolean;
+  exists: boolean;
 }
 
-
-
 class Window extends React.Component<WindowProps, WindowState> {
+  static contextType = GlobalValuesContext; // Agrega el tipo de contexto aquí
+  declare context: React.ContextType<typeof GlobalValuesContext>; // Declara `context` con el tipo correcto
+
   constructor(props: WindowProps) {
     super(props);
     this.state = {
       windowSizeDefault: { width: window.innerWidth, height: window.innerHeight },
-      windowSize: { width: 700, height: 400 },  // Tamaño inicial
-      isVisible: true,  // Inicialmente visible
-      isMaximized: false,  // Estado inicial no maximizado
-      exists: true
+      windowSize: { width: 700, height: 400 },
+      isVisible: true,
+      isMaximized: false,
+      exists: true,
     };
   }
-
 
   componentDidMount() {
     window.addEventListener('resize', this.updateWindowSize);
@@ -39,7 +40,6 @@ class Window extends React.Component<WindowProps, WindowState> {
     window.removeEventListener('resize', this.updateWindowSize);
   }
 
-  // Actualiza las dimensiones de la ventana predeterminada al cambiar el tamaño del navegador
   updateWindowSize = () => {
     this.setState({
       windowSizeDefault: {
@@ -49,48 +49,42 @@ class Window extends React.Component<WindowProps, WindowState> {
     });
   };
 
-  // Cierra la ventana
   handleClose = () => {
-    this.setState({ exists: false});
+    const { id } = this.props;
+    const { setOpenApps } = this.context;
+    this.setState({ exists: false });
+    setOpenApps((prevApps) => prevApps.filter((app) => app.id !== id));
   };
 
-  // Minimiza la ventana ocultándola
   handleMinimize = () => {
     this.setState({ isVisible: false });
   };
 
-  // Alterna entre maximizar y restaurar el tamaño de la ventana
   handleMaximize = () => {
     const { isMaximized } = this.state;
     if (isMaximized) {
-      // Restaurar tamaño predeterminado cuando esté maximizado
       this.setState({
         isMaximized: false,
         windowSize: { width: 700, height: 400 },
       });
     } else {
-      // Maximizar al tamaño completo de la ventana
       this.setState({
         isMaximized: true,
-        windowSize: { width: parent.innerWidth - 48, height: parent.innerHeight - 110 },
+        windowSize: { width: window.innerWidth - 48, height: window.innerHeight - 110 },
       });
     }
   };
-  
-
 
   render() {
     const { icon, defaults } = this.props;
     const { windowSizeDefault, windowSize, isMaximized, isVisible, exists } = this.state;
-    if (!isVisible) return null;
-    if (!exists) return null;
 
-    // Posiciones por defecto para centrar la ventana cuando no esté maximizada
+    if (!isVisible || !exists) return null;
+
     const defaultX = isMaximized ? 0 : (windowSizeDefault.width - windowSize.width) / 2;
     const defaultY = isMaximized ? 0 : (windowSizeDefault.height - windowSize.height) / 2;
 
-    return  (
-      
+    return (
       <Rnd
         className="absolute bg-gray-100/50 rounded shadow-xl flex flex-col translate-x-0 translate-y-0"
         dragHandleClassName="drag-handle"
@@ -100,9 +94,9 @@ class Window extends React.Component<WindowProps, WindowState> {
           width: defaults?.width || windowSize.width,
           height: defaults?.height || windowSize.height,
         }}
-        size={windowSize}  // Tamaño de la ventana actual
-        position={isMaximized ? { x: 0, y: 0 } : undefined}  // Posición al maximizar
-        enableResizing={!isMaximized}  // Desactiva redimensionamiento al maximizar
+        size={windowSize}
+        position={isMaximized ? { x: 0, y: 0 } : undefined}
+        enableResizing={!isMaximized}
         disableDragging={isMaximized}
         onResize={(e, direction, ref, delta, position) => {
           this.setState({
@@ -113,10 +107,9 @@ class Window extends React.Component<WindowProps, WindowState> {
           });
         }}
       >
-        {/* Barra de arrastre */}
         <div
           className="drag-handle w-full bg-gray-800 h-8 absolute top-0 cursor-move rounded-t-md flex flex-row items-center justify-between px-8"
-          onDoubleClick={this.handleMaximize}  // Doble clic para maximizar/restaurar
+          onDoubleClick={this.handleMaximize}
         >
           <div className="flex flex-row gap-4">
             <img src={icon?.img} className="w-4" alt="Icon" />
@@ -142,8 +135,6 @@ class Window extends React.Component<WindowProps, WindowState> {
             </button>
           </div>
         </div>
-
-        {/* Contenido de la ventana (iframe) */}
         <div className="w-full h-full pt-8 flex-grow flex">
           <iframe
             className="w-full h-full border-none"

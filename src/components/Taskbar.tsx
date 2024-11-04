@@ -6,6 +6,7 @@ import Modal from "@components/Modal";
 import SoundSlider from "@components/SoundSlider";
 import { GlobalValuesContext } from "@utils/GlobalValuesContext";
 
+
 interface TaskbarProps {
   Icons: IIcon[];
 }

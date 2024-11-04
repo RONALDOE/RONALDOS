@@ -1,7 +1,8 @@
 import { IIcon } from "@utils/interfaces.ts";
 import { useState } from "react";
-
+import Window from "./Window";
 interface IconProps {
+
   content: IIcon;
 }
 
