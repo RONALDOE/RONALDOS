@@ -9,6 +9,7 @@ export default function Screen() {
 
   const [loading, setLoading] = useState(true);
   const [loadingCount, setLoadingCount] = useState(0);
+  const { openApps } = useContext(GlobalValuesContext);
 
 
   // Cuando el valor de loadingCount alcance 100, desactiva la pantalla de carga
@@ -52,16 +53,7 @@ export default function Screen() {
     }
   ];
 
-  const TaskbarIcons: IIcon[] = [
-    {
-      id: 1,
-      name: "Google",
-      size: "small",
-      img: "https://www.google.com/images/branding/googlelogo/1x/googlelogo_color_272x92dp.png",
-      appUrl: "https://www.google.com",
-      type: 'tb'
-    },
-  ];
+  const TaskbarIcons: IIcon[] = openApps
 
   return (
     <>

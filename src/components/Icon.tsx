@@ -36,7 +36,7 @@ export default function Icon({ content }: IconProps) {
         <img
           src={content.img}
           alt={content.name}
-          className="object-contain max-w-full max-h-full"
+          className={`object-contain ${ content.type === "dt" ? "max-w-full max-h-full" : "max-w-14 max-h-14"}`}
         />
       </div>
       <p>{content.type === 'dt' ? content.name : ""}</p>

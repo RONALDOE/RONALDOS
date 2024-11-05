@@ -7,6 +7,9 @@ interface WindowProps {
   icon: IIcon;
   id: number;
   defaults?: { x: number, y: number, width: number, height: number };
+  isMinimized: boolean;
+  onToggleMinimize: () => void; // function to toggle minimize state
+
 }
 
 interface WindowState {
@@ -74,12 +77,13 @@ class Window extends React.Component<WindowProps, WindowState> {
       });
     }
   };
+  
 
   render() {
-    const { icon, defaults } = this.props;
-    const { windowSizeDefault, windowSize, isMaximized, isVisible, exists } = this.state;
-
-    if (!isVisible || !exists) return null;
+    const { icon, defaults, isMinimized } = this.props;
+    const { windowSizeDefault, windowSize, isMaximized, isVisible, exists,  } = this.state;
+  
+    if (!isVisible || !exists || isMinimized) return null;
 
     const defaultX = isMaximized ? 0 : (windowSizeDefault.width - windowSize.width) / 2;
     const defaultY = isMaximized ? 0 : (windowSizeDefault.height - windowSize.height) / 2;

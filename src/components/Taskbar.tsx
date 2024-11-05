@@ -6,7 +6,6 @@ import Modal from "@components/Modal";
 import SoundSlider from "@components/SoundSlider";
 import { GlobalValuesContext } from "@utils/GlobalValuesContext";
 
-
 interface TaskbarProps {
   Icons: IIcon[];
 }
@@ -21,8 +20,7 @@ export default function Taskbar({ Icons }: TaskbarProps) {
   const [isMounted, setIsMounted] = useState<boolean>(false); // State to track if the page is mounted
   const infoButtonRef = useRef<HTMLButtonElement>(null);
   const soundButtonRef = useRef<HTMLButtonElement>(null);
-  const { volume } = useContext(GlobalValuesContext);
-
+  const { volume, setOpenApps, openApps } = useContext(GlobalValuesContext);
 
   useEffect(() => {
     const intervalId = setInterval(() => {
@@ -37,6 +35,17 @@ export default function Taskbar({ Icons }: TaskbarProps) {
     setInfoMenu(false);
     setIsMounted(true); // Set isMounted to true after the page mounts
   }, []);
+
+  const handleIconClick = (iconId: number) => {
+    setOpenApps((prevApps) =>
+      prevApps.map((app) =>
+        app.id === iconId
+          ? { ...app, isMinimized: !app.isMinimized }
+          : app
+      )
+    );
+    openApps.forEach((app) => { console.log(app.isMinimized) });
+  };
 
   useEffect(() => {
     // Posicionamiento dinámico del SoundSlider
@@ -75,15 +84,16 @@ export default function Taskbar({ Icons }: TaskbarProps) {
             </a>
           </button>
         </div>
-        <div className="flex flex-row max-h-16 items-center justify-around overflow-hidden">
-          {Icons.length > 0 &&
-            Icons.map((icon, index) => {
-              return (
-                <div key={index}>
-                  <Icon content={icon} />
-                </div>
-              );
-            })}
+        <div className="flex flex-row max-h-16 max-w-[300px] w-[300px] items-center justify-center gap-2 overflow-x-auto overflow-y-hidden">
+        {Icons.map((icon, index) => (
+        <div
+          key={index}
+          onClick={() => handleIconClick(icon.id!)}
+          onDoubleClick={() => handleIconClick(icon.id!)} // Toggle minimize on double-click
+        >
+          <Icon content={{ ...icon, type: "tb" }} />
+        </div>
+      ))}
         </div>
         <div className="flex flex-row gap-4 select-none items-center">
           <button
