@@ -20,7 +20,7 @@ export default function Taskbar({ Icons }: TaskbarProps) {
   const [isMounted, setIsMounted] = useState<boolean>(false); // State to track if the page is mounted
   const infoButtonRef = useRef<HTMLButtonElement>(null);
   const soundButtonRef = useRef<HTMLButtonElement>(null);
-  const { volume, setOpenApps, openApps,  } = useContext(GlobalValuesContext);
+  const { volume  } = useContext(GlobalValuesContext);
 
   useEffect(() => {
     const intervalId = setInterval(() => {
