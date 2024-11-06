@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import { Rnd } from "react-rnd";
 import { IIcon } from '@utils/interfaces';
 import { GlobalValuesContext } from "@utils/GlobalValuesContext";
@@ -7,9 +7,6 @@ interface WindowProps {
   icon: IIcon;
   id: number;
   defaults?: { x: number, y: number, width: number, height: number };
-  isMinimized: boolean;
-  onToggleMinimize: () => void; // function to toggle minimize state
-
 }
 
 interface WindowState {
@@ -21,8 +18,8 @@ interface WindowState {
 }
 
 class Window extends React.Component<WindowProps, WindowState> {
-  static contextType = GlobalValuesContext; // Agrega el tipo de contexto aquí
-  declare context: React.ContextType<typeof GlobalValuesContext>; // Declara `context` con el tipo correcto
+  static contextType = GlobalValuesContext;
+  declare context: React.ContextType<typeof GlobalValuesContext>;
 
   constructor(props: WindowProps) {
     super(props);
@@ -56,11 +53,12 @@ class Window extends React.Component<WindowProps, WindowState> {
     const { id } = this.props;
     const { setOpenApps } = this.context;
     this.setState({ exists: false });
-    setOpenApps((prevApps) => prevApps.filter((app) => app.id !== id));
+    setOpenApps((prevApps: IIcon[]) => prevApps.filter((app) => app.id !== id));
   };
 
   handleMinimize = () => {
-    this.setState({ isVisible: false });
+    this.setState({ isVisible: !this.state.isVisible, isMaximized: false,
+    });
   };
 
   handleMaximize = () => {
@@ -69,28 +67,73 @@ class Window extends React.Component<WindowProps, WindowState> {
       this.setState({
         isMaximized: false,
         windowSize: { width: 700, height: 400 },
+        isVisible: true,
       });
     } else {
       this.setState({
         isMaximized: true,
         windowSize: { width: window.innerWidth - 48, height: window.innerHeight - 110 },
+        isVisible: true,
+
       });
     }
   };
-  
 
   render() {
-    const { icon, defaults, isMinimized } = this.props;
-    const { windowSizeDefault, windowSize, isMaximized, isVisible, exists,  } = this.state;
-  
-    if (!isVisible || !exists || isMinimized) return null;
+    const { icon, defaults } = this.props;
+    const { windowSizeDefault, windowSize, isMaximized, isVisible, exists } = this.state;
 
-    const defaultX = isMaximized ? 0 : (windowSizeDefault.width - windowSize.width) / 2;
-    const defaultY = isMaximized ? 0 : (windowSizeDefault.height - windowSize.height) / 2;
+    if (!exists) return null;
+
+    const defaultX = (windowSizeDefault.width - windowSize.width) / 2;
+    const defaultY = (windowSizeDefault.height - windowSize.height) / 2;
+
+    if (!isVisible) {
+      // Render the minimized bar
+      return (
+        <Rnd
+          className={``}
+          dragHandleClassName="drag-handle"
+          enableResizing={!isMaximized}
+          disableDragging={isMaximized}
+          disableResizing
+        >
+          <div
+            className="drag-handle w-64 bg-gray-800 h-8 absolute top-0 cursor-move rounded-t-md flex flex-row items-center justify-between px-8"
+            onDoubleClick={this.handleMaximize}
+          >
+            <div className="flex flex-row gap-2">
+              <img src={icon?.img} className="w-6 object-contain " alt="Icon" />
+              <p className="text-white text-sm">{icon?.name}</p>
+            </div>
+            <div className="flex flex-row gap-2">
+              <button onClick={this.handleMinimize}>
+                <img src="https://img.icons8.com/fluency/256/minimize-window--v2.png" className="w-7" alt="Minimize Button" />
+              </button>
+              <button onClick={this.handleMaximize}>
+                <img
+                  src={
+                    isMaximized
+                      ? "https://img.icons8.com/fluency/256/restore-window.png"
+                      : "https://img.icons8.com/fluency/256/maximize-window.png"
+                  }
+                  className="w-7"
+                  alt="Maximize/Restore Button"
+                />
+              </button>
+              <button onClick={this.handleClose}>
+                <img src="https://img.icons8.com/fluency/256/close-window--v1.png" className="w-7" alt="Close Button" />
+              </button>
+            </div>
+          </div>
+         
+        </Rnd>
+      );
+    }
 
     return (
       <Rnd
-        className="absolute bg-gray-100/50 rounded shadow-xl flex flex-col translate-x-0 translate-y-0"
+        className={`absolute bg-gray-100/50 rounded shadow-xl flex flex-col ${isVisible ? "" : "hidden"}`}
         dragHandleClassName="drag-handle"
         default={{
           x: defaults?.x || defaultX,
@@ -115,8 +158,8 @@ class Window extends React.Component<WindowProps, WindowState> {
           className="drag-handle w-full bg-gray-800 h-8 absolute top-0 cursor-move rounded-t-md flex flex-row items-center justify-between px-8"
           onDoubleClick={this.handleMaximize}
         >
-          <div className="flex flex-row gap-4">
-            <img src={icon?.img} className="w-4" alt="Icon" />
+          <div className="flex flex-row gap-2">
+            <img src={icon?.img} className="w-6 object-contain" alt="Icon" />
             <p className="text-white text-sm">{icon?.name}</p>
           </div>
           <div className="flex flex-row gap-4">
@@ -140,10 +183,7 @@ class Window extends React.Component<WindowProps, WindowState> {
           </div>
         </div>
         <div className="w-full h-full pt-8 flex-grow flex">
-          <iframe
-            className="w-full h-full border-none"
-            title={icon?.name}
-          />
+          <iframe className="w-full h-full border-none" title={icon?.name} />
         </div>
       </Rnd>
     );

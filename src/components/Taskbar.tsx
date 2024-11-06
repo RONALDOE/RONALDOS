@@ -20,13 +20,12 @@ export default function Taskbar({ Icons }: TaskbarProps) {
   const [isMounted, setIsMounted] = useState<boolean>(false); // State to track if the page is mounted
   const infoButtonRef = useRef<HTMLButtonElement>(null);
   const soundButtonRef = useRef<HTMLButtonElement>(null);
-  const { volume, setOpenApps, openApps } = useContext(GlobalValuesContext);
+  const { volume, setOpenApps, openApps,  } = useContext(GlobalValuesContext);
 
   useEffect(() => {
     const intervalId = setInterval(() => {
       setTime(formatTime());
     }, 60000); // Update every minute
-    // Clean up the interval on component unmount
     return () => clearInterval(intervalId);
   }, []);
 
@@ -36,19 +35,9 @@ export default function Taskbar({ Icons }: TaskbarProps) {
     setIsMounted(true); // Set isMounted to true after the page mounts
   }, []);
 
-  const handleIconClick = (iconId: number) => {
-    setOpenApps((prevApps) =>
-      prevApps.map((app) =>
-        app.id === iconId
-          ? { ...app, isMinimized: !app.isMinimized }
-          : app
-      )
-    );
-    openApps.forEach((app) => { console.log(app.isMinimized) });
-  };
 
+  
   useEffect(() => {
-    // Posicionamiento dinámico del SoundSlider
     if (soundSlider && soundButtonRef.current) {
       const rect = soundButtonRef.current.getBoundingClientRect();
       setSoundPosition({ top: rect.top - 92, left: rect.left });
@@ -56,7 +45,6 @@ export default function Taskbar({ Icons }: TaskbarProps) {
   }, [soundSlider]);
 
   useEffect(() => {
-    // Posicionamiento dinámico del InfoMenu
     if (infoMenu && infoButtonRef.current) {
       const rect = infoButtonRef.current.getBoundingClientRect();
       setInfoPosition({ top: rect.top - 520, left: rect.left });
@@ -88,8 +76,6 @@ export default function Taskbar({ Icons }: TaskbarProps) {
         {Icons.map((icon, index) => (
         <div
           key={index}
-          onClick={() => handleIconClick(icon.id!)}
-          onDoubleClick={() => handleIconClick(icon.id!)} // Toggle minimize on double-click
         >
           <Icon content={{ ...icon, type: "tb" }} />
         </div>
@@ -100,7 +86,6 @@ export default function Taskbar({ Icons }: TaskbarProps) {
             className="w-8 h-8 hover:bg-white/5 rounded-md text-center px-6 flex items-center justify-center"
             onClick={() => {
               setlanguageMenu(!languageMenu);
-              console.log(languageMenu);
             }}
           >
             <p className="text-center text-md font-light">ENG</p>
@@ -112,8 +97,7 @@ export default function Taskbar({ Icons }: TaskbarProps) {
             }`}
             onClick={() => {
               setInfoMenu(!infoMenu);
-              if (!infoMenu) setSoundSlider(false); // Si soundSlider se abre, cierra infoMenu
-              console.log(infoMenu);
+              if (!infoMenu) setSoundSlider(false);
             }}
           >
             <img
@@ -132,8 +116,8 @@ export default function Taskbar({ Icons }: TaskbarProps) {
             ref={soundButtonRef}
             className="w-8 h-8 p-1 hover:bg-white/5 rounded-md"
             onClick={() => {
-              setSoundSlider(!soundSlider); // Abre/cierra el soundSlider
-              if (!soundSlider) setInfoMenu(false); // Si soundSlider se abre, cierra infoMenu
+              setSoundSlider(!soundSlider);
+              if (!soundSlider) setInfoMenu(false);
             }}
           >
             {volume > 0 ? (
@@ -160,13 +144,13 @@ export default function Taskbar({ Icons }: TaskbarProps) {
         isVisible={infoMenu}
         position={infoPosition}
         element={<MyInfo />}
-        style={{ visibility: isMounted ? "visible" : "hidden" }} // Hide until mounted
+        style={{ visibility: isMounted ? "visible" : "hidden" }}
       />
       <Modal
         isVisible={soundSlider}
         position={soundPosition}
         element={<SoundSlider />}
-        style={{ visibility: isMounted ? "visible" : "hidden" }} // Hide until mounted
+        style={{ visibility: isMounted ? "visible" : "hidden" }}
       />
     </div>
   );

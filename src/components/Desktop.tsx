@@ -22,16 +22,16 @@ export default function Desktop({ Icons }: DesktopProps) {
   };
 
   return (
-    <div className="container flex flex-col gap-4 m-4">
+    <div className="container flex flex-col gap-4 m-4 max-w-max">
       {Icons.length > 0 &&
         Icons.map((icon) => (
-          <div key={icon.id} onClick={() => handleIconClick(icon)}>
+          <div key={icon.id} onClick={() => handleIconClick(icon)} className='max-w-max'>
             <Icon content={icon} />
           </div>
         ))}
 
       {openApps.map((app) => (
-        <Window key={app.id} icon={app} id={app.id! | 0} />
+        <Window key={app.id} icon={app} id={app.id! | (Math.round(Math.random()))} />
       ))}
     </div>
   );

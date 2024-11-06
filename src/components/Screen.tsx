@@ -57,17 +57,21 @@ export default function Screen() {
 
   return (
     <>
-      {/* Pantalla de carga */}
+      {/* Pantalla de carga 
+      
+      */}
+      
       <div className={`bg-black w-full h-full flex flex-col items-center justify-center absolute z-20 ${loading ? '' : 'hidden'}`}>
         <Loading />
         <div className="w-1/6 h-4 bg-gray-200 rounded-sm overflow-hidden mt-4">
-          {/* Progreso */}
           <div
             className="h-full bg-gray-500"
             style={{ width: `${loadingCount}%` }}
           ></div>
         </div>
       </div>
+      
+      
 
       {/* Pantalla principal */}
       <div className="flex flex-col h-screen overflow-hidden bg-cover bg-no-repeat -z-20" style={{ backgroundImage: `url(${Background})` }}>
