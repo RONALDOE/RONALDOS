@@ -1,5 +1,4 @@
 import Logo from '@assets/RONALDOS_LOGO.png';
-import React from 'react';
 
 export default function Loading() {
   return (

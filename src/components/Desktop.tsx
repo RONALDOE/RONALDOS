@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import{ useContext } from 'react';
 import Icon from './Icon';
 import Window from './Window';
 import { IIcon } from '@utils/interfaces';

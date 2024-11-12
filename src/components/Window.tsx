@@ -141,7 +141,8 @@ class Window extends React.Component<WindowProps, WindowState> {
         position={isMaximized ? { x: 0, y: 0 } : undefined}
         enableResizing={!isMaximized}
         disableDragging={isMaximized}
-        onResize={(e, direction, ref) => {
+        
+        onResize={(_e, _direction, ref) => {
           this.setState({
             windowSize: {
               width: ref.offsetWidth,

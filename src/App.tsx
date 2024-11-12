@@ -1,6 +1,6 @@
 import Screen from "@components/Screen";
 import { GlobalValuesContext } from "@utils/GlobalValuesContext";
-import React, { useState } from "react";
+import  { useState } from "react";
 import { IIcon } from "@utils/interfaces";
 
 function App() {

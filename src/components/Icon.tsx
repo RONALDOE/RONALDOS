@@ -1,5 +1,5 @@
 import { IIcon } from "@utils/interfaces.ts";
-import React, { useState } from "react";
+import{ useState } from "react";
 
 interface IconProps {
   content: IIcon;

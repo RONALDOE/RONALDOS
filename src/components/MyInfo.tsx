@@ -1,4 +1,3 @@
-import React from "react";
 import MyPhoto from "@assets/My Photo.jpg";
 
 

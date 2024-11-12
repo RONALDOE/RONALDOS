@@ -1,5 +1,5 @@
 import { IIcon } from "@utils/interfaces.ts";
-import  React, { useState, useEffect, useRef, useContext } from "react";
+import { useState, useEffect, useRef, useContext } from "react";
 import Icon from "@components/Icon";
 import MyInfo from "@components/MyInfo";
 import Modal from "@components/Modal";

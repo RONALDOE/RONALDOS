@@ -2,7 +2,7 @@ import Desktop from "@components/Desktop";
 import Taskbar from "@components/Taskbar";
 import { IIcon } from "@utils/interfaces";
 import Background from "@assets/Backgrounds/Background1.svg";
-import React, { useState, useEffect, useContext } from 'react';
+import{ useState, useEffect, useContext } from 'react';
 import Loading from "./Loading";
 import { GlobalValuesContext } from "@utils/GlobalValuesContext";
 
