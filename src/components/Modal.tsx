@@ -4,7 +4,7 @@ interface ModalProps {
   isVisible: boolean;
   position: { top: number; left: number };
   element: JSX.Element;
-  style: React.CSSProperties; 
+  style: React.CSSProperties;
 }
 
 export default function Modal({ isVisible, position, element, style }: ModalProps) {
@@ -31,14 +31,14 @@ export default function Modal({ isVisible, position, element, style }: ModalProp
   return (
     <div
       ref={ref}
-      className={`rounded-lg shadow-lg fixed bg-gray-900 text-white p-6 transition-all duration-300 transform z-10 ${
-        visible ? "translate-y-0 opacity-100" : "translate-y-full opacity-0"
-      }`}
-      onTransitionEnd={handleTransitionEnd} 
-      style={{ 
+      className={`rounded-lg shadow-lg fixed bg-gray-900 text-white p-6 transition-all duration-300 transform z-10 
+        ${visible ? "translate-y-0 opacity-100" : "translate-y-full opacity-0"} 
+        max-w-full sm:max-w-md md:max-w-lg lg:max-w-xl`}
+      onTransitionEnd={handleTransitionEnd}
+      style={{
         top: position.top,
         left: position.left,
-        ...style, 
+        ...style,
       }}
       onBlur={() => setVisible(false)}
     >

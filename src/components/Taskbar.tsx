@@ -1,5 +1,5 @@
 import { IIcon } from "@utils/interfaces.ts";
-import { useState, useEffect, useRef, useContext } from "react";
+import  React, { useState, useEffect, useRef, useContext } from "react";
 import Icon from "@components/Icon";
 import MyInfo from "@components/MyInfo";
 import Modal from "@components/Modal";
@@ -13,7 +13,7 @@ interface TaskbarProps {
 export default function Taskbar({ Icons }: TaskbarProps) {
   const [infoMenu, setInfoMenu] = useState<boolean>(true);
   const [soundSlider, setSoundSlider] = useState<boolean>(true);
-  const [languageMenu, setlanguageMenu] = useState<boolean>(false);
+  // const [languageMenu, setlanguageMenu] = useState<boolean>(false);
   const [ctime, setTime] = useState(formatTime());
   const [infoPosition, setInfoPosition] = useState({ top: 0, left: 0 });
   const [soundPosition, setSoundPosition] = useState({ top: 0, left: 0 });
@@ -55,22 +55,18 @@ export default function Taskbar({ Icons }: TaskbarProps) {
     <div className="relative">
       <div className="flex flex-row gap-4 h-16 w-full items-center justify-around border-t border-gray-500 bg-gray-800 text-white">
         <div className="flex flex-row gap-4">
+          <a href="https://ronaldoe.github.io/">
+
           <Icon
             content={{
               name: "Windows Start",
               img: "https://img.icons8.com/fluency/256/windows-11.png",
               type: "tb",
             }}
-          />
-
-          <button className="w-28 h-14 p-2 hover:bg-white/5">
-            <a
-              href="javascript:console.log('aun')"
-              className="font-semibold text-center text-md"
-            >
-              Encuentrame
+            />
             </a>
-          </button>
+
+          
         </div>
         <div className="flex flex-row max-h-16 max-w-[300px] w-[300px] items-center justify-center gap-2 overflow-x-auto overflow-y-hidden">
         {Icons.map((icon, index) => (
@@ -82,14 +78,14 @@ export default function Taskbar({ Icons }: TaskbarProps) {
       ))}
         </div>
         <div className="flex flex-row gap-4 select-none items-center">
-          <button
+          {/* <button
             className="w-8 h-8 hover:bg-white/5 rounded-md text-center px-6 flex items-center justify-center"
             onClick={() => {
               setlanguageMenu(!languageMenu);
             }}
           >
             <p className="text-center text-md font-light">ENG</p>
-          </button>
+          </button> */}
           <button
             ref={infoButtonRef}
             className={`w-11 h-10 p-2 transition-transform ${
@@ -133,7 +129,7 @@ export default function Taskbar({ Icons }: TaskbarProps) {
             )}
           </button>
 
-          <div className="flex flex-col gap-0 text-sm text-right">
+          <div className="flex flex-col gap-0 text-md text-right">
             <p>{ctime}</p>
             <p>{getDate()}</p>
           </div>

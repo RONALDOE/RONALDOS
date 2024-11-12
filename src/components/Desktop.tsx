@@ -22,7 +22,7 @@ export default function Desktop({ Icons }: DesktopProps) {
   };
 
   return (
-    <div className="container flex flex-col gap-4 m-4 max-w-max">
+    <div className="container flex flex-col gap-4 m-4 max-w-max screen">
       {Icons.length > 0 &&
         Icons.map((icon) => (
           <div key={icon.id} onClick={() => handleIconClick(icon)} className='max-w-max'>

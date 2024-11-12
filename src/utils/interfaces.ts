@@ -6,6 +6,6 @@ export interface IIcon{ // Interface for the icon object
     appUrl?: string; // URL to open when the icon is clicked
     action?: () => void; // Function to execute when the icon is clicked
     type: 'tb' | 'dt' //taskbar or desktop 
-
+    windowSize?: {width: number, height: number} | null
 }
 

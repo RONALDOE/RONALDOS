@@ -23,9 +23,11 @@ class Window extends React.Component<WindowProps, WindowState> {
 
   constructor(props: WindowProps) {
     super(props);
+    const { icon } = props;
+    // Usa el tamaño predeterminado del icono si está disponible, de lo contrario usa 700x400
     this.state = {
       windowSizeDefault: { width: window.innerWidth, height: window.innerHeight },
-      windowSize: { width: 700, height: 400 },
+      windowSize: icon.windowSize || { width: 700, height: 400 },
       isVisible: true,
       isMaximized: false,
       exists: true,
@@ -57,26 +59,21 @@ class Window extends React.Component<WindowProps, WindowState> {
   };
 
   handleMinimize = () => {
-    this.setState({ isVisible: !this.state.isVisible, isMaximized: false,
+    this.setState({
+      isVisible: !this.state.isVisible,
+      isMaximized: false,
     });
   };
 
   handleMaximize = () => {
     const { isMaximized } = this.state;
-    if (isMaximized) {
-      this.setState({
-        isMaximized: false,
-        windowSize: { width: 700, height: 400 },
-        isVisible: true,
-      });
-    } else {
-      this.setState({
-        isMaximized: true,
-        windowSize: { width: window.innerWidth - 48, height: window.innerHeight - 110 },
-        isVisible: true,
-
-      });
-    }
+    this.setState({
+      isMaximized: !isMaximized,
+      windowSize: isMaximized
+        ? this.props.icon.windowSize || { width: 700, height: 400 }
+        : { width: window.innerWidth - 48, height: window.innerHeight - 110 },
+      isVisible: true,
+    });
   };
 
   render() {
@@ -89,7 +86,6 @@ class Window extends React.Component<WindowProps, WindowState> {
     const defaultY = (windowSizeDefault.height - windowSize.height) / 2;
 
     if (!isVisible) {
-      // Render the minimized bar
       return (
         <Rnd
           className={``}
@@ -97,13 +93,14 @@ class Window extends React.Component<WindowProps, WindowState> {
           enableResizing={!isMaximized}
           disableDragging={isMaximized}
           disableResizing
+          bounds=".screen"
         >
           <div
             className="drag-handle w-64 bg-gray-800 h-8 absolute top-0 cursor-move rounded-t-md flex flex-row items-center justify-between px-8"
             onDoubleClick={this.handleMaximize}
           >
             <div className="flex flex-row gap-2">
-              <img src={icon?.img} className="w-6 object-contain " alt="Icon" />
+              <img src={icon?.img} className="w-6 object-contain" alt="Icon" />
               <p className="text-white text-sm">{icon?.name}</p>
             </div>
             <div className="flex flex-row gap-2">
@@ -126,7 +123,6 @@ class Window extends React.Component<WindowProps, WindowState> {
               </button>
             </div>
           </div>
-         
         </Rnd>
       );
     }
@@ -145,7 +141,7 @@ class Window extends React.Component<WindowProps, WindowState> {
         position={isMaximized ? { x: 0, y: 0 } : undefined}
         enableResizing={!isMaximized}
         disableDragging={isMaximized}
-        onResize={(e, direction, ref,  ) => {
+        onResize={(e, direction, ref) => {
           this.setState({
             windowSize: {
               width: ref.offsetWidth,
@@ -183,7 +179,7 @@ class Window extends React.Component<WindowProps, WindowState> {
           </div>
         </div>
         <div className="w-full h-full pt-8 flex-grow flex">
-          <iframe className="w-full h-full border-none" title={icon?.name} />
+          <iframe className="w-full h-full border-none" src={icon?.appUrl} title={icon?.name} />
         </div>
       </Rnd>
     );
